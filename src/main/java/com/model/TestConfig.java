@@ -15,6 +15,8 @@ public class TestConfig {
 
     private String browser;
 
+    private String company;
+
 
 }
 

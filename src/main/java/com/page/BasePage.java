@@ -9,6 +9,8 @@ import org.openqa.selenium.Cookie;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.firefox.FirefoxDriver;
+import org.openqa.selenium.support.ui.ExpectedConditions;
+import org.openqa.selenium.support.ui.WebDriverWait;
 
 import java.io.File;
 import java.io.IOException;
@@ -26,9 +28,9 @@ import java.util.concurrent.TimeUnit;
  * @since 1.0.0
  */
 public class BasePage {
-    static  WebDriver driver;
+    static WebDriver driver;
 
-    public WebDriver driverClient(){
+    public WebDriver driverClient() {
         //利用cookie复用session登录
         if (TestingUtil.getTestingConfig().getBrowser().equals("chrome")) {
             driver = new ChromeDriver();
@@ -42,8 +44,15 @@ public class BasePage {
         driver.get(url);
     }
 
+
+    public String getText(By partyInfo) {
+        return driver.findElement(partyInfo).getText();
+
+    }
+
     public void implicitlyWait(long time) {
         driver.manage().timeouts().implicitlyWait(time, TimeUnit.SECONDS);
+
     }
 
     public void login() throws InterruptedException, IOException {
@@ -99,10 +108,34 @@ public class BasePage {
     }
 
     /**
+     * 清理文本框
+     *
+     * @param phoneNumInput
+     */
+    public void clear(By phoneNumInput) {
+        driver.findElement(phoneNumInput).clear();
+    }
+
+    /**
      * 关闭浏览器
      */
     public void close() {
         driver.quit();
+    }
+
+
+    /**
+     * 显示等待
+     * @param element
+     * @param timeout
+     */
+    public void webDriverWait(By element, int timeout) {
+        WebDriverWait webDriverWait = new WebDriverWait(this.driver, timeout);
+        webDriverWait.until(ExpectedConditions.elementToBeClickable(element));
+    }
+
+    public long elementCount(By by){
+       return driver.findElements(by).stream().count();
     }
 
 }

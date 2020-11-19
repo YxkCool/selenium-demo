@@ -16,7 +16,7 @@ public class MainPage extends BasePage {
     public MainPage() throws IOException, InterruptedException {
         driverClient();
         logined();
-
+        implicitlyWait(2);
     }
 
     /**
